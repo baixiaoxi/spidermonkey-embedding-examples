@@ -45,9 +45,10 @@ static std::map<std::u16string, JS::PersistentRootedObject> moduleRegistry;
 // Callback for embedding to provide modules for import statements. This example
 // hardcodes sources, but an embedding would normally load files here.
 static JSObject* ExampleResolveHook(JSContext* cx,
-                                    JS::HandleValue modulePrivate,
-                                    JS::HandleString spec) {
+                                    JS::HandleValue referencingPrivate,
+                                    JS::HandleObject moduleRequest) {
   // Convert specifier to a std::u16char for simplicity.
+  auto spec = JS::GetModuleRequestSpecifier(cx, moduleRequest);
   JS::UniqueTwoByteChars specChars(JS_CopyStringCharsZ(cx, spec));
   if (!specChars) {
     return nullptr;
@@ -105,7 +106,8 @@ static bool ModuleExample(JSContext* cx) {
   }
 
   // Execute the module bytecode.
-  if (!JS::ModuleEvaluate(cx, mod)) {
+  JS::RootedValue rval(cx);
+  if (!JS::ModuleEvaluate(cx, mod, &rval)) {
     boilerplate::ReportAndClearException(cx);
     return false;
   }

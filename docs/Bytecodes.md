@@ -1,7 +1,7 @@
 # Bytecode Listing #
 
 This document is automatically generated from
-[`Opcodes.h`](https://searchfox.org/mozilla-esr78/source/js/src/vm/Opcodes.h) by
+[`Opcodes.h`](https://searchfox.org/mozilla-esr91/source/js/src/vm/Opcodes.h) by
 [`make_opcode_doc.py`](../tools/make_opcode_doc.py).
 
 ## Background ##

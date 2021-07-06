@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <jsapi.h>
+#include "js/Object.h"
 
 #include <mozilla/Unused.h>
 
@@ -226,12 +227,13 @@ static bool ConstructObjectWithNew(JSContext* cx, JS::HandleObject global) {
   args[1].setInt32(24);
 
   // Step 3 - Call `new Person(...args)`, passing the arguments.
-  JS::RootedObject obj(cx, JS_New(cx, constructor, args));
+  JS::RootedObject obj(cx);
+  JS::Construct(cx, constructor_val, args, &obj);
   if (!obj) return false;
 
   // (If your constructor doesn't take any arguments, you can skip the second
   // step and call step 3 like this:)
-  obj = JS_New(cx, constructor, JS::HandleValueArray::empty());
+  JS::Construct(cx, constructor_val, JS::HandleValueArray::empty(), &obj);
   if (!obj) return false;
 
   return true;
@@ -750,8 +752,8 @@ static bool MyClassMethod(JSContext* cx, unsigned argc, JS::Value* vp) {
   JS::RootedObject thisObj(cx);
   if (!args.computeThis(cx, &thisObj)) return false;
 
-  JS::RootedValue v_a(cx, JS_GetReservedSlot(thisObj, SlotA));
-  JS::RootedValue v_b(cx, JS_GetReservedSlot(thisObj, SlotB));
+  JS::RootedValue v_a(cx, JS::GetReservedSlot(thisObj, SlotA));
+  JS::RootedValue v_b(cx, JS::GetReservedSlot(thisObj, SlotB));
 
   double a, b;
   if (!JS::ToNumber(cx, v_a, &a) || !JS::ToNumber(cx, v_b, &b)) return false;

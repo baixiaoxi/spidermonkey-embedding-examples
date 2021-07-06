@@ -3,7 +3,7 @@
 This document describes how to port your code from using one ESR version
 of SpiderMonkey to the next ESR version.
 
-## ESR 68 to ESR 78 ##
+## ESR 68 to ESR 91 ##
 
 ### Requirements ###
 

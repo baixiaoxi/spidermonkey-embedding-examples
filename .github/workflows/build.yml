@@ -2,9 +2,9 @@ name: Spidermonkey
 
 on:
   push:
-    branches: [ esr78 ]
+    branches: [ esr91 ]
   pull_request:
-    branches: [ esr78 ]
+    branches: [ esr91 ]
   schedule: 
     - cron: "10 10 10 * *"
 
@@ -35,7 +35,7 @@ jobs:
           override: true
           default: true
     - name: Get SM pkg
-      run: ./tools/get_sm_78.sh
+      run: ./tools/get_sm_91.sh
     - name: ccache cache files
       uses: actions/cache@v1.1.0
       with:
